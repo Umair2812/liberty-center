@@ -40,7 +40,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-line bg-cream/45">
+    <footer className="border-t border-gold/20 bg-linear-to-b from-blush from-0% via-cream via-45% to-gold-soft/35">
       <Container className="py-14 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 gap-12 sm:gap-14 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-16">
           {/* Brand */}
