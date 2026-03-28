@@ -14,7 +14,7 @@ export function PlaceholderPage({
     <div className="py-20 lg:py-28">
       <Container className="max-w-lg text-center">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
-          Liberty Atelier
+          Liberty Center
         </p>
         <h1 className="font-display mt-3 text-3xl font-medium text-foreground sm:text-4xl">
           {title}

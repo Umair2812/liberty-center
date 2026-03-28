@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
-import { SiteFooter } from "@/components/layout/SiteFooter";
-import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Inter, Playfair_Display } from "next/font/google";
+import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/Navbar";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   display: "swap",
@@ -20,8 +20,8 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: {
-    default: "Liberty Atelier | Pakistani Luxury Pret & Lawn",
-    template: "%s | Liberty Atelier",
+    default: "Liberty Center | Pakistani Luxury Pret & Lawn",
+    template: "%s | Liberty Center",
   },
   description:
     "Curated Pakistani lawn, unstitched luxe, kurtas, and pret — crafted for the modern woman who values timeless elegance.",
@@ -36,12 +36,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${cormorant.variable} ${outfit.variable} h-full antialiased`}
+      className={`${playfair.variable} ${inter.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <SiteHeader />
+      <body className="flex min-h-dvh min-h-full flex-col" suppressHydrationWarning>
+        <Navbar />
         <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <Footer />
       </body>
     </html>
   );

@@ -1,113 +1,172 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Container } from "@/components/ui/Container";
 
 const navLinks = [
+  { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/collections", label: "Collections" },
-  { href: "/new-arrivals", label: "New" },
+  { href: "/unstitched-clothes", label: "Unstitched clothes" },
+  { href: "/accessories", label: "Accessories" },
+  { href: "/new-arrivals", label: "New Arrivals" },
   { href: "/sale", label: "Sale" },
-];
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+] as const;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const drawerId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  function close() {
+    setOpen(false);
+  }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-background/85 backdrop-blur-md">
-      <Container className="flex h-14 items-center justify-between sm:h-16 lg:h-[4.25rem]">
-        <div className="flex items-center gap-6 lg:gap-10">
-          <button
-            type="button"
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
-            aria-expanded={open}
-            aria-label="Open menu"
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span
-              className={`h-px w-5 bg-foreground transition-transform duration-300 ${open ? "translate-y-[3px] rotate-45" : ""}`}
-            />
-            <span
-              className={`h-px w-5 bg-foreground transition-opacity duration-300 ${open ? "opacity-0" : ""}`}
-            />
-            <span
-              className={`h-px w-5 bg-foreground transition-transform duration-300 ${open ? "-translate-y-[3px] -rotate-45" : ""}`}
-            />
-          </button>
+    <>
+      <header className="sticky top-0 z-50 border-b border-line bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
+        <Container className="flex h-14 items-center justify-between gap-3 sm:h-16 lg:h-[4.25rem]">
+          <div className="flex min-w-0 flex-1 items-center gap-3 lg:gap-8">
+            <button
+              type="button"
+              className="flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full text-foreground transition-colors hover:bg-cream lg:hidden"
+              aria-expanded={open}
+              aria-controls={drawerId}
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((v) => !v)}
+            >
+              <span
+                className={`h-px w-5 bg-foreground transition-transform duration-300 ${open ? "translate-y-[3px] rotate-45" : ""}`}
+              />
+              <span
+                className={`h-px w-5 bg-foreground transition-opacity duration-300 ${open ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`h-px w-5 bg-foreground transition-transform duration-300 ${open ? "-translate-y-[3px] -rotate-45" : ""}`}
+              />
+            </button>
 
-          <Link
-            href="/"
-            className="font-display text-xl font-semibold tracking-[0.02em] text-foreground transition-colors duration-300 hover:text-gold sm:text-2xl"
-          >
-            Liberty Center
-          </Link>
+            <Link
+              href="/"
+              className="font-display truncate text-lg font-semibold tracking-tight text-foreground transition-colors duration-300 hover:text-gold sm:text-xl lg:text-2xl"
+              onClick={close}
+            >
+              Liberty Center
+            </Link>
+
+            <nav
+              className="ml-auto hidden max-w-none items-center gap-2.5 text-[11px] font-medium text-foreground/85 min-[1100px]:gap-4 min-[1100px]:text-[13px] lg:flex xl:gap-6 xl:text-sm"
+              aria-label="Main"
+            >
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative whitespace-nowrap py-1 transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:text-foreground hover:after:scale-x-100"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
+            <Link
+              href="/search"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
+              aria-label="Search"
+            >
+              <SearchIcon />
+            </Link>
+            <Link
+              href="/account"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
+              aria-label="Account"
+            >
+              <UserIcon />
+            </Link>
+            <Link
+              href="/cart"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
+              aria-label="Cart"
+            >
+              <BagIcon />
+            </Link>
+          </div>
+        </Container>
+      </header>
+
+      {/* Mobile drawer + overlay */}
+      <div
+        className={`fixed inset-0 z-40 lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+        aria-hidden={!open}
+      >
+        <button
+          type="button"
+          className={`absolute inset-0 bg-foreground/40 backdrop-blur-[2px] transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
+          aria-label="Close menu"
+          tabIndex={open ? 0 : -1}
+          onClick={close}
+        />
+
+        <div
+          id={drawerId}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+          className={`absolute inset-y-0 left-0 flex w-[min(100%,20rem)] max-w-[85vw] flex-col border-r border-line bg-background shadow-2xl transition-transform duration-300 ease-out ${open ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-4 sm:h-16">
+            <span className="font-display text-lg font-semibold text-foreground">
+              Menu
+            </span>
+            <button
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/80 transition-colors hover:bg-cream"
+              aria-label="Close menu"
+              onClick={close}
+            >
+              <CloseIcon />
+            </button>
+          </div>
 
           <nav
-            className="hidden items-center gap-8 text-sm font-medium text-foreground/80 lg:flex"
-            aria-label="Main"
+            className="flex flex-1 flex-col overflow-y-auto px-2 py-4 text-[15px] font-medium"
+            aria-label="Mobile main"
           >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative py-1 transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:text-foreground hover:after:scale-x-100"
+                className="rounded-lg px-3 py-3.5 text-foreground/90 transition-colors hover:bg-cream hover:text-foreground"
+                onClick={close}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
         </div>
-
-        <div className="flex items-center gap-1 sm:gap-2">
-          <Link
-            href="/search"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
-            aria-label="Search"
-          >
-            <SearchIcon />
-          </Link>
-          <Link
-            href="/account"
-            className="hidden h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground sm:flex"
-            aria-label="Account"
-          >
-            <UserIcon />
-          </Link>
-          <Link
-            href="/cart"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
-            aria-label="Cart"
-          >
-            <BagIcon />
-          </Link>
-        </div>
-      </Container>
-
-      <div
-        className={`border-t border-line bg-background lg:hidden ${open ? "max-h-[320px] border-b opacity-100" : "max-h-0 overflow-hidden border-b-0 opacity-0"} transition-all duration-300 ease-out`}
-      >
-        <nav className="flex flex-col px-4 py-4 text-sm font-medium" aria-label="Mobile">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="border-b border-line py-3.5 text-foreground/90 transition-colors hover:text-gold"
-              onClick={() => setOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href="/account"
-            className="py-3.5 text-foreground/90 transition-colors hover:text-gold"
-            onClick={() => setOpen(false)}
-          >
-            Account
-          </Link>
-        </nav>
       </div>
-    </header>
+    </>
   );
 }
 
@@ -146,6 +205,19 @@ function BagIcon() {
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M18 6L6 18M6 6l12 12"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
     </svg>
   );

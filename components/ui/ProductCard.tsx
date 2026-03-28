@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatPkr } from "@/lib/format";
-import type { HomeProduct } from "@/data/home";
+import type { HomeProduct } from "@/types";
 
 type ProductCardProps = {
   product: HomeProduct;
@@ -28,14 +28,16 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           ) : null}
         </div>
-        <div className="mt-4 flex flex-col gap-1">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted">
+        <div className="mt-4 flex flex-col gap-1.5">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
             {product.category}
           </p>
-          <h3 className="text-base font-medium text-foreground transition-colors duration-300 group-hover:text-gold">
+          <h3 className="font-display text-[17px] font-medium leading-snug text-foreground transition-colors duration-300 group-hover:text-gold sm:text-lg">
             {product.name}
           </h3>
-          <p className="text-sm text-foreground/90">{formatPkr(product.price)}</p>
+          <p className="text-sm font-medium tabular-nums text-foreground/95">
+            {formatPkr(product.price)}
+          </p>
         </div>
       </article>
     </Link>

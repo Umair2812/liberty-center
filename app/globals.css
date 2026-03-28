@@ -20,8 +20,8 @@
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
   --color-line: var(--line);
-  --font-sans: var(--font-outfit);
-  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
 }
 
 @layer base {
@@ -32,12 +32,19 @@
   body {
     background: var(--background);
     color: var(--foreground);
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-sans);
+    font-feature-settings: "kern" 1, "liga" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
   }
 }
 
 @layer components {
   .font-display {
-    font-family: var(--font-cormorant), ui-serif, Georgia, serif;
+    font-family: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
   }
 }

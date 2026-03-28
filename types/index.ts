@@ -1,0 +1,8 @@
+/**
+ * Shared domain types. Prefer importing from here for app-wide consistency.
+ */
+export type {
+  HomeCategory,
+  HomeCollection,
+  HomeProduct,
+} from "@/data/home";

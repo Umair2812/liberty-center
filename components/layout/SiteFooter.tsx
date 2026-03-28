@@ -40,7 +40,7 @@ export function SiteFooter() {
               href="/"
               className="font-display text-2xl font-semibold tracking-[0.02em] text-foreground"
             >
-              Liberty Atelier
+              Liberty Center
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
               Pakistani lawn, unstitched, and pret — curated with a quiet sense of luxury.
@@ -75,7 +75,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-14 flex flex-col gap-4 border-t border-line pt-8 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Liberty Atelier. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Liberty Center. All rights reserved.</p>
           <div className="flex flex-wrap gap-6">
             <Link href="/privacy" className="transition-colors hover:text-foreground">
               Privacy
