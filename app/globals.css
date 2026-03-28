@@ -9,6 +9,13 @@
   --gold: #b8976a;
   --gold-soft: #d4c4a8;
   --line: rgba(44, 40, 37, 0.08);
+  /* Type scale (fluid) */
+  --text-display: clamp(2.125rem, 5.25vw, 3.875rem);
+  --text-h2: clamp(1.625rem, 3.5vw, 2.625rem);
+  --text-h3: clamp(1.25rem, 2.25vw, 1.5rem);
+  --text-lead: clamp(1rem, 2.1vw, 1.125rem);
+  --text-body: 0.9375rem;
+  --text-body-lg: 1.0625rem;
 }
 
 @theme inline {
@@ -46,5 +53,133 @@
 @layer components {
   .font-display {
     font-family: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
+  }
+
+  /** Consistent vertical rhythm for homepage sections */
+  .section-home {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  @media (min-width: 640px) {
+    .section-home {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .section-home {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .section-home {
+      padding-top: 6.5rem;
+      padding-bottom: 6.5rem;
+    }
+  }
+
+  /** Inline text links (section headers, etc.) */
+  .link-elegant {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--gold) 45%, transparent);
+    text-underline-offset: 5px;
+    transition:
+      color 0.35s ease,
+      text-decoration-color 0.35s ease,
+      transform 0.35s ease;
+  }
+  .link-elegant:hover {
+    color: var(--gold);
+    text-decoration-color: var(--gold);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .link-elegant:hover {
+      transform: translateY(-1px);
+    }
+  }
+}
+
+/* Promotional banner — subtle motion (respects reduced motion via animation: none) */
+@keyframes promo-banner-kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.07) translate(-1.25%, -0.5%);
+  }
+}
+
+@keyframes promo-banner-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.875rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .animate-promo-kenburns {
+    animation: promo-banner-kenburns 22s ease-in-out infinite alternate;
+  }
+
+  .animate-promo-fade-up {
+    animation: promo-banner-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-promo-fade-up-delay-1 {
+    animation: promo-banner-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.1s;
+  }
+
+  .animate-promo-fade-up-delay-2 {
+    animation: promo-banner-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.2s;
+  }
+
+  .animate-promo-fade-up-delay-3 {
+    animation: promo-banner-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.32s;
+  }
+}
+
+@keyframes hero-content-up {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .animate-hero-1 {
+    animation: hero-content-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+  }
+  .animate-hero-2 {
+    animation: hero-content-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  }
+  .animate-hero-3 {
+    animation: hero-content-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.34s both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-promo-kenburns,
+  .animate-promo-fade-up,
+  .animate-promo-fade-up-delay-1,
+  .animate-promo-fade-up-delay-2,
+  .animate-promo-fade-up-delay-3,
+  .animate-hero-1,
+  .animate-hero-2,
+  .animate-hero-3 {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

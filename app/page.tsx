@@ -6,7 +6,7 @@ import { Newsletter } from "@/components/Newsletter";
 import { PromotionalBanner } from "@/components/home/PromotionalBanner";
 
 /**
- * Homepage sections (global site footer is rendered in `app/layout.tsx`).
+ * Homepage (global footer lives in `app/layout.tsx`).
  */
 export default function HomePage() {
   return (

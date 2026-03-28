@@ -1,67 +1,57 @@
 import Image from "next/image";
 import Link from "next/link";
 import { promoBanner } from "@/data/home";
-import { Container } from "@/components/ui/Container";
 
 export function PromotionalBanner() {
   return (
-    <section className="relative overflow-hidden py-20 lg:py-24">
-      <div className="absolute inset-0 bg-foreground" aria-hidden>
-        <Image
-          src={promoBanner.image}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover opacity-40 mix-blend-luminosity"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/85 to-foreground/55"
-          aria-hidden
-        />
-      </div>
+    <section
+      className="relative w-full overflow-hidden bg-[#2c2825] text-background"
+      aria-labelledby="promo-banner-heading"
+    >
+      <div className="grid w-full lg:min-h-[min(52vh,600px)] lg:grid-cols-2">
+        {/* Image — full-width band on mobile; split panel on desktop */}
+        <div className="relative order-1 aspect-[16/10] max-h-[380px] w-full overflow-hidden sm:aspect-[21/9] sm:max-h-[420px] lg:order-2 lg:aspect-auto lg:max-h-none lg:min-h-[min(52vh,600px)]">
+          <Image
+            src={promoBanner.image}
+            alt={promoBanner.imageAlt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover object-[center_25%] motion-safe:animate-promo-kenburns"
+            priority={false}
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-[#2c2825]/90 via-transparent to-[#2c2825]/20 lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-[#2c2825]/35"
+            aria-hidden
+          />
+        </div>
 
-      <Container className="relative">
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
-          <div className="lg:col-span-7">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-gold-soft">
-              {promoBanner.eyebrow}
-            </p>
-            <h2 className="font-display mt-4 max-w-[16ch] text-[clamp(2rem,5vw,3.5rem)] font-medium leading-[1.08] text-background">
-              {promoBanner.title}
-            </h2>
-            <p className="mt-5 max-w-md text-base leading-relaxed text-background/80">
-              {promoBanner.description}
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                href={promoBanner.cta.href}
-                className="inline-flex h-12 min-w-[160px] items-center justify-center bg-background px-8 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-gold-soft"
-              >
-                {promoBanner.cta.label}
-              </Link>
-              {promoBanner.secondaryCta ? (
-                <Link
-                  href={promoBanner.secondaryCta.href}
-                  className="text-sm font-medium text-background/90 underline decoration-background/40 underline-offset-[6px] transition-colors hover:text-background hover:decoration-background"
-                >
-                  {promoBanner.secondaryCta.label}
-                </Link>
-              ) : null}
-            </div>
-          </div>
-          <div className="relative hidden aspect-[4/5] max-h-[420px] lg:col-span-5 lg:block">
-            <div className="absolute inset-0 ring-1 ring-background/20">
-              <Image
-                src={promoBanner.spotlightImage}
-                alt={promoBanner.spotlightAlt}
-                fill
-                sizes="(max-width: 1024px) 0vw, 40vw"
-                className="object-cover"
-              />
-            </div>
+        {/* Copy — full-width block on mobile; padded column on desktop */}
+        <div className="order-2 flex flex-col justify-center px-5 py-12 sm:px-8 sm:py-16 lg:order-1 lg:py-20 lg:pl-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] lg:pr-10 xl:pl-[max(2rem,calc((100vw-80rem)/2+2rem))]">
+          <p className="animate-promo-fade-up text-[10px] font-semibold uppercase tracking-[0.28em] text-gold-soft sm:text-[11px]">
+            Limited offer
+          </p>
+          <h2
+            id="promo-banner-heading"
+            className="animate-promo-fade-up-delay-1 font-display mt-3 text-[clamp(1.875rem,4.2vw,3.125rem)] font-medium leading-[1.08] tracking-tight sm:mt-4"
+          >
+            {promoBanner.title}
+          </h2>
+          <p className="animate-promo-fade-up-delay-2 mt-4 font-display text-[clamp(1.35rem,2.8vw,2rem)] font-medium tracking-tight text-gold sm:mt-5">
+            {promoBanner.offer}
+          </p>
+          <p className="animate-promo-fade-up-delay-2 mt-3 max-w-md text-[length:var(--text-body)] leading-relaxed text-background/78 sm:mt-4 sm:text-[length:var(--text-body-lg)] sm:leading-[1.65]">
+            {promoBanner.description}
+          </p>
+          <div className="animate-promo-fade-up-delay-3 mt-9 sm:mt-10">
+            <Link
+              href={promoBanner.cta.href}
+              className="inline-flex h-12 min-h-12 min-w-[200px] touch-manipulation items-center justify-center bg-background px-10 text-sm font-semibold tracking-wide text-foreground shadow-[0_4px_24px_rgba(0,0,0,0.15)] transition-all duration-500 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:bg-gold-soft motion-safe:hover:shadow-[0_10px_36px_rgba(0,0,0,0.22)] motion-safe:active:translate-y-0 motion-safe:active:scale-[0.99]"
+            >
+              {promoBanner.cta.label}
+            </Link>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

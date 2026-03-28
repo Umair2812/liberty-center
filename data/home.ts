@@ -1,9 +1,10 @@
 export type HomeCategory = {
   slug: string;
   label: string;
-  tagline: string;
   image: string;
   href: string;
+  /** Optional subtitle under the title on category cards */
+  tagline?: string;
 };
 
 export type HomeProduct = {
@@ -14,6 +15,8 @@ export type HomeProduct = {
   image: string;
   href: string;
   badge?: string;
+  /** Alternate image for hover crossfade (optional) */
+  hoverImage?: string;
 };
 
 export type HomeCollection = {
@@ -26,12 +29,10 @@ export type HomeCollection = {
 };
 
 export const heroContent = {
-  eyebrow: "Spring / Summer 2026",
-  title: "Quiet luxury,\nmade to wear",
-  description:
-    "Lawn, unstitched silks, and pret — curated for celebrations, workdays, and every moment worth dressing for.",
-  primaryCta: { label: "Shop new arrivals", href: "/new-arrivals" },
-  secondaryCta: { label: "Explore categories", href: "#categories" },
+  title: "Elegance in Every Thread",
+  description: "Discover timeless Pakistani dresses with perfectly matched Indian accessories.",
+  primaryCta: { label: "Shop Now", href: "/shop" },
+  secondaryCta: { label: "Explore Collection", href: "/collections" },
   image:
     "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg",
   imageAlt: "Curated garments on hangers in a softly lit boutique",
@@ -39,44 +40,32 @@ export const heroContent = {
 
 export const homeCategories: HomeCategory[] = [
   {
-    slug: "lawn",
-    label: "Lawn",
-    tagline: "Breathable prints",
-    href: "/shop",
-    image:
-      "https://images.unsplash.com/photo-1581044777550-aa7750db9da7?auto=format&fit=crop&w=900&q=80",
-  },
-  {
     slug: "unstitched",
     label: "Unstitched",
-    tagline: "Luxe yardage",
     href: "/unstitched-clothes",
     image:
-      "https://images.unsplash.com/photo-1496747611176-843222e1f57b?auto=format&fit=crop&w=900&q=80",
+      "https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=format&fit=crop&w=900&q=80",
   },
   {
-    slug: "pret",
-    label: "Pret",
-    tagline: "Ready to wear",
+    slug: "stitched",
+    label: "Stitched",
     href: "/shop",
     image:
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=900&q=80",
   },
   {
-    slug: "kurtas",
-    label: "Kurtas",
-    tagline: "Everyday refined",
+    slug: "luxury",
+    label: "Luxury",
     href: "/shop",
     image:
-      "https://images.unsplash.com/photo-1515372031174-ab54a49f10ed?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=900&q=80",
   },
   {
-    slug: "accessories",
-    label: "Accessories",
-    tagline: "Finish the look",
-    href: "/accessories",
+    slug: "party-wear",
+    label: "Party Wear",
+    href: "/shop",
     image:
-      "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=80",
+      "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -86,7 +75,7 @@ export const featuredCollections: HomeCollection[] = [
     title: "Noor Edit",
     subtitle: "Hand‑touch embroideries on pure cotton net",
     image:
-      "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=80",
+      "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=format&fit=crop&w=1200&q=80",
     href: "/collections/noor-edit",
     span: "large",
   },
@@ -115,7 +104,7 @@ export const featuredProducts: HomeProduct[] = [
     price: 14990,
     category: "Lawn",
     image:
-      "https://images.unsplash.com/photo-1596783074918-c7cb2e69d32a?auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/noor-embroidered-lawn",
     badge: "Featured",
   },
@@ -125,7 +114,7 @@ export const featuredProducts: HomeProduct[] = [
     price: 18990,
     category: "Unstitched",
     image:
-      "https://images.unsplash.com/photo-1550614000-4b9519e02a4d?auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/riva-silk-dupatta-set",
   },
   {
@@ -134,7 +123,7 @@ export const featuredProducts: HomeProduct[] = [
     price: 16990,
     category: "Pret",
     image:
-      "https://images.unsplash.com/photo-1583496661160-fb5886a13d22?auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/lina-chiffon-pret",
   },
   {
@@ -149,17 +138,14 @@ export const featuredProducts: HomeProduct[] = [
 ];
 
 export const promoBanner = {
-  eyebrow: "Limited time",
-  title: "Mid-season refinement",
-  description:
-    "Take up to 30% off selected pret and lawn. Online and in-store — while pieces last.",
-  cta: { label: "Shop the sale", href: "/sale" },
-  secondaryCta: { label: "View lookbook", href: "/collections" },
+  title: "Summer Collection 2026",
+  offer: "Up to 30% Off",
+  description: "Lawn, pret, and unstitched edits — refreshed for the season.",
+  cta: { label: "Shop the collection", href: "/sale" },
+  /** Split-panel / mobile hero image */
   image:
-    "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=2000&q=80",
-  spotlightImage:
-    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=900&q=80",
-  spotlightAlt: "Elegant folded garments in warm tones",
+    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80",
+  imageAlt: "Summer fashion — light fabrics and soft tones",
 };
 
 export const newArrivals: HomeProduct[] = [
@@ -169,7 +155,7 @@ export const newArrivals: HomeProduct[] = [
     price: 12990,
     category: "Lawn",
     image:
-      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/zahra-3-piece-lawn",
     badge: "New",
   },
@@ -179,7 +165,7 @@ export const newArrivals: HomeProduct[] = [
     price: 24990,
     category: "Unstitched",
     image:
-      "https://images.unsplash.com/photo-1496747611176-843222e1f57b?auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/mehra-unstitched-silk",
   },
   {
@@ -188,7 +174,7 @@ export const newArrivals: HomeProduct[] = [
     price: 8990,
     category: "Kurtas",
     image:
-      "https://images.unsplash.com/photo-1515372031174-ab54a49f10ed?auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/aila-embroidered-kurta",
   },
   {
@@ -197,7 +183,7 @@ export const newArrivals: HomeProduct[] = [
     price: 15990,
     category: "Pret",
     image:
-      "https://images.unsplash.com/photo-1583496661160-fb5886a13d22?auto=format&fit=crop&w=800&q=80",
+      "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/sapphire-pret-set",
     badge: "Limited",
   },

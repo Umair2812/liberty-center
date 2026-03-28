@@ -1,5 +1,5 @@
-import { PlaceholderPage } from "@/components/placeholders/PlaceholderPage";
+import { ComingSoon } from "@/components/placeholders/ComingSoon";
 
 export default function AboutPage() {
-  return <PlaceholderPage title="About" description="Coming Soon" />;
+  return <ComingSoon />;
 }

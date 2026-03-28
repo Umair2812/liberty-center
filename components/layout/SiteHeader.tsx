@@ -43,7 +43,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-line bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
+      <header className="sticky top-0 z-50 border-b border-line bg-background/90 shadow-[0_1px_0_rgba(44,40,37,0.04)] backdrop-blur-md transition-[background-color,box-shadow] duration-300 supports-[backdrop-filter]:bg-background/80">
         <Container className="flex h-14 items-center justify-between gap-3 sm:h-16 lg:h-[4.25rem]">
           <div className="flex min-w-0 flex-1 items-center gap-3 lg:gap-8">
             <button
@@ -81,7 +81,7 @@ export function SiteHeader() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative whitespace-nowrap py-1 transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:text-foreground hover:after:scale-x-100"
+                  className="relative whitespace-nowrap py-1 transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-500 after:ease-out hover:text-foreground hover:after:scale-x-100"
                 >
                   {link.label}
                 </Link>
@@ -92,21 +92,21 @@ export function SiteHeader() {
           <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
             <Link
               href="/search"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
+              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/70 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground motion-safe:hover:shadow-sm"
               aria-label="Search"
             >
               <SearchIcon />
             </Link>
             <Link
               href="/account"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
+              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/70 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground motion-safe:hover:shadow-sm"
               aria-label="Account"
             >
               <UserIcon />
             </Link>
             <Link
               href="/cart"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-colors duration-300 hover:bg-cream hover:text-foreground"
+              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/70 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground motion-safe:hover:shadow-sm"
               aria-label="Cart"
             >
               <BagIcon />
@@ -122,7 +122,7 @@ export function SiteHeader() {
       >
         <button
           type="button"
-          className={`absolute inset-0 bg-foreground/40 backdrop-blur-[2px] transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 bg-foreground/40 backdrop-blur-[2px] transition-opacity duration-300 ease-out ${open ? "opacity-100" : "opacity-0"}`}
           aria-label="Close menu"
           tabIndex={open ? 0 : -1}
           onClick={close}
@@ -133,7 +133,7 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation menu"
-          className={`absolute inset-y-0 left-0 flex w-[min(100%,20rem)] max-w-[85vw] flex-col border-r border-line bg-background shadow-2xl transition-transform duration-300 ease-out ${open ? "translate-x-0" : "-translate-x-full"}`}
+          className={`absolute inset-y-0 left-0 flex w-[min(100%,20rem)] max-w-[85vw] flex-col border-r border-line bg-background shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
         >
           <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-4 sm:h-16">
             <span className="font-display text-lg font-semibold text-foreground">
@@ -157,7 +157,7 @@ export function SiteHeader() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-lg px-3 py-3.5 text-foreground/90 transition-colors hover:bg-cream hover:text-foreground"
+                className="rounded-lg px-3 py-3.5 text-foreground/90 transition-[background-color,color,transform] duration-300 motion-safe:hover:translate-x-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground"
                 onClick={close}
               >
                 {link.label}
