@@ -1,19 +1,206 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useId, useState } from "react";
 import { Container } from "@/components/ui/Container";
 
-const navLinks = [
+type MegaMenuSection = {
+  title: string;
+  links: { label: string; href: string }[];
+};
+
+type MegaMenu = {
+  sections: MegaMenuSection[];
+  featured?: {
+    image: string;
+    title: string;
+    href: string;
+  };
+};
+
+type NavLink = {
+  href: string;
+  label: string;
+  megaMenu?: MegaMenu;
+};
+
+const navLinks: NavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/shop", label: "Shop" },
-  { href: "/unstitched-clothes", label: "Unstitched clothes" },
-  { href: "/accessories", label: "Accessories" },
-  { href: "/new-arrivals", label: "New Arrivals" },
-  { href: "/sale", label: "Sale" },
+  { 
+    href: "/shop", 
+    label: "Shop",
+    megaMenu: {
+      sections: [
+        {
+          title: "Women",
+          links: [
+            { label: "Ready to Wear", href: "/shop/women/ready-to-wear" },
+            { label: "Unstitched", href: "/shop/women/unstitched" },
+            { label: "Bottoms", href: "/shop/women/bottoms" },
+            { label: "Sleepwear", href: "/shop/women/sleepwear" },
+          ]
+        },
+        {
+          title: "Men",
+          links: [
+            { label: "Kurta/Shalwar Kameez", href: "/shop/men/kurta-shalwar-kameez" },
+            { label: "Waistcoats", href: "/shop/men/waistcoats" },
+            { label: "Bottoms", href: "/shop/men/bottoms" },
+          ]
+        },
+        {
+          title: "Kids",
+          links: [
+            { label: "Girls", href: "/shop/kids/girls" },
+            { label: "Boys", href: "/shop/kids/boys" },
+          ]
+        }
+      ],
+      featured: {
+        image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
+        title: "Latest Collection",
+        href: "/shop/latest",
+      }
+    }
+  },
+  { 
+    href: "/unstitched-clothes", 
+    label: "Unstitched clothes",
+    megaMenu: {
+      sections: [
+        {
+          title: "Fabric",
+          links: [
+            { label: "Lawn", href: "/unstitched/lawn" },
+            { label: "Silk", href: "/unstitched/silk" },
+            { label: "Chiffon", href: "/unstitched/chiffon" },
+            { label: "Cotton", href: "/unstitched/cotton" },
+            { label: "Cambric", href: "/unstitched/cambric" },
+          ]
+        },
+        {
+          title: "Pieces",
+          links: [
+            { label: "1 Piece", href: "/unstitched/1-piece" },
+            { label: "2 Piece", href: "/unstitched/2-piece" },
+            { label: "3 Piece", href: "/unstitched/3-piece" },
+          ]
+        }
+      ],
+      featured: {
+        image: "https://images.unsplash.com/photo-1583391733958-d25e07fac04f?q=80&w=800&auto=format&fit=crop",
+        title: "Premium Unstitched",
+        href: "/unstitched-clothes/premium",
+      }
+    }
+  },
+  {
+    href: "/accessories",
+    label: "Accessories",
+    megaMenu: {
+      sections: [
+        {
+          title: "Bags",
+          links: [
+            { label: "Clutches", href: "/accessories/clutches" },
+            { label: "Hand Bags", href: "/accessories/hand-bags" },
+            { label: "Backpacks", href: "/accessories/backpacks" },
+            { label: "Phone Bags", href: "/accessories/phone-bags" },
+            { label: "Tote Bags", href: "/accessories/tote-bags" },
+            { label: "Wallets", href: "/accessories/wallets" },
+            { label: "Vanity Bags", href: "/accessories/vanity-bags" },
+          ],
+        },
+        {
+          title: "Footwear",
+          links: [
+            { label: "Slides", href: "/accessories/slides" },
+            { label: "Heels", href: "/accessories/heels" },
+            { label: "Block Heels", href: "/accessories/block-heels" },
+            { label: "Canvas", href: "/accessories/canvas" },
+            { label: "Khussa", href: "/accessories/khussa" },
+            { label: "Mules", href: "/accessories/mules" },
+            { label: "Loafers", href: "/accessories/loafers" },
+          ],
+        },
+        {
+          title: "Wraps",
+          links: [{ label: "Scarf", href: "/accessories/scarf" }],
+        },
+        {
+          title: "Camisole",
+          links: [{ label: "All Camisoles", href: "/accessories/camisole" }],
+        },
+      ],
+      featured: {
+        image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop",
+        title: "Accessories",
+        href: "/accessories",
+      },
+    },
+  },
+  { 
+    href: "/new-arrivals", 
+    label: "New Arrivals",
+    megaMenu: {
+      sections: [
+        {
+          title: "Latest",
+          links: [
+            { label: "This Week", href: "/new-arrivals/this-week" },
+            { label: "Just Dropped", href: "/new-arrivals/just-dropped" },
+            { label: "Restocks", href: "/new-arrivals/restocks" },
+          ]
+        },
+        {
+          title: "Categories",
+          links: [
+            { label: "Women's New", href: "/new-arrivals/women" },
+            { label: "Men's New", href: "/new-arrivals/men" },
+            { label: "Accessories", href: "/new-arrivals/accessories" },
+          ]
+        }
+      ],
+      featured: {
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
+        title: "The Bloom Affair",
+        href: "/new-arrivals",
+      }
+    }
+  },
+  { 
+    href: "/sale", 
+    label: "Sale",
+    megaMenu: {
+      sections: [
+        {
+          title: "Discounts",
+          links: [
+            { label: "Up to 50% Off", href: "/sale/up-to-50-off" },
+            { label: "Up to 70% Off", href: "/sale/up-to-70-off" },
+            { label: "Clearance", href: "/sale/clearance" },
+          ]
+        },
+        {
+          title: "Categories",
+          links: [
+            { label: "Women's Sale", href: "/sale/women" },
+            { label: "Men's Sale", href: "/sale/men" },
+            { label: "Accessories Sale", href: "/sale/accessories" },
+          ]
+        }
+      ],
+      featured: {
+        image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=800&auto=format&fit=crop",
+        title: "End of Season Sale",
+        href: "/sale",
+      }
+    }
+  },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-] as const;
+];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -43,9 +230,9 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-line bg-background/90 shadow-[0_1px_0_rgba(44,40,37,0.04)] backdrop-blur-md transition-[background-color,box-shadow] duration-300 supports-[backdrop-filter]:bg-background/80">
+      <header className="group/header sticky top-0 z-50 border-b border-line bg-background/90 shadow-[0_1px_0_rgba(44,40,37,0.04)] backdrop-blur-md transition-all duration-300 hover:bg-background supports-[backdrop-filter]:bg-background/80 hover:supports-[backdrop-filter]:bg-background">
         <Container className="flex h-14 items-center justify-between gap-3 sm:h-16 lg:h-[4.25rem]">
-          <div className="flex min-w-0 flex-1 items-center gap-3 lg:gap-8">
+          <div className="flex h-full min-w-0 flex-1 items-center gap-3 lg:gap-8">
             <button
               type="button"
               className="flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full text-foreground transition-colors hover:bg-cream lg:hidden"
@@ -67,46 +254,94 @@ export function SiteHeader() {
 
             <Link
               href="/"
-              className="font-display truncate text-lg font-semibold tracking-tight text-foreground transition-colors duration-300 hover:text-gold sm:text-xl lg:text-2xl"
+              className="font-display truncate text-lg font-semibold tracking-tight text-foreground transition-colors duration-300 hover:text-gold sm:text-xl lg:text-3xl lg:-mt-1"
               onClick={close}
             >
               Liberty Center
             </Link>
 
             <nav
-              className="ml-auto hidden max-w-none items-center gap-2.5 text-[11px] font-medium text-foreground/85 min-[1100px]:gap-4 min-[1100px]:text-[13px] lg:flex xl:gap-6 xl:text-sm"
+              className="ml-auto hidden h-full max-w-none items-center text-[11px] font-medium text-foreground/85 min-[1100px]:text-[13px] lg:flex xl:text-sm"
               aria-label="Main"
             >
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="relative whitespace-nowrap py-1 transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-500 after:ease-out hover:text-foreground hover:after:scale-x-100"
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href} className="group flex h-full items-center">
+                  <Link
+                    href={link.href}
+                    className="relative flex h-full items-center px-3 xl:px-4 whitespace-nowrap transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-[1px] after:h-[2px] after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 after:ease-out hover:text-foreground group-hover:after:scale-x-100"
+                  >
+                    <span className="uppercase tracking-wider text-xs">{link.label}</span>
+                  </Link>
+
+                  {link.megaMenu && (
+                    <div className="absolute left-0 top-full w-full bg-background opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t border-line shadow-xl">
+                      <Container>
+                        <div className="flex py-12 justify-between">
+                          <div className="flex gap-16 xl:gap-24">
+                            {link.megaMenu.sections.map((section) => (
+                              <div key={section.title}>
+                                <h4 className="text-[11px] tracking-[0.2em] font-semibold mb-6 text-foreground/90 uppercase">
+                                  {section.title}
+                                </h4>
+                                <ul className="flex flex-col gap-4">
+                                  {section.links.map((sublink) => (
+                                    <li key={sublink.href}>
+                                      <Link
+                                        href={sublink.href}
+                                        className="text-[13px] text-muted hover:text-gold transition-colors font-medium uppercase tracking-wide"
+                                      >
+                                        {sublink.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                          {link.megaMenu.featured && (
+                            <div className="flex flex-col w-[26rem] shrink-0">
+                              <Link href={link.megaMenu.featured.href} className="group/feat overflow-hidden">
+                                <div className="relative aspect-[16/10] w-full overflow-hidden bg-cream mb-4">
+                                  <Image
+                                    src={link.megaMenu.featured.image}
+                                    alt={link.megaMenu.featured.title}
+                                    fill
+                                    className="object-cover transition-transform duration-700 ease-out group-hover/feat:scale-105"
+                                  />
+                                </div>
+                                <span className="text-[11px] uppercase tracking-[0.2em] font-medium text-foreground group-hover/feat:text-gold transition-colors block mt-2">
+                                  {link.megaMenu.featured.title}
+                                </span>
+                              </Link>
+                            </div>
+                          )}
+                        </div>
+                      </Container>
+                    </div>
+                  )}
+                </div>
               ))}
             </nav>
           </div>
 
-          <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
+          <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-2 lg:w-48">
             <Link
               href="/search"
-              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/70 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground motion-safe:hover:shadow-sm"
+              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/80 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:text-gold"
               aria-label="Search"
             >
               <SearchIcon />
             </Link>
             <Link
               href="/account"
-              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/70 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground motion-safe:hover:shadow-sm"
+              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/80 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:text-gold"
               aria-label="Account"
             >
               <UserIcon />
             </Link>
             <Link
               href="/cart"
-              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/70 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground motion-safe:hover:shadow-sm"
+              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/80 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:text-gold"
               aria-label="Cart"
             >
               <BagIcon />
@@ -133,15 +368,15 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation menu"
-          className={`absolute inset-y-0 left-0 flex w-[min(100%,20rem)] max-w-[85vw] flex-col border-r border-line bg-background shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
+          className={`absolute inset-y-0 left-0 flex w-[min(100%,22rem)] max-w-[85vw] flex-col border-r border-line bg-background shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-4 sm:h-16">
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-5 sm:h-16">
             <span className="font-display text-lg font-semibold text-foreground">
-              Menu
+              Liberty Center
             </span>
             <button
               type="button"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/80 transition-colors hover:bg-cream"
+              className="flex h-10 w-10 -mr-2 items-center justify-center rounded-full text-foreground/80 transition-colors hover:bg-cream"
               aria-label="Close menu"
               onClick={close}
             >
@@ -150,18 +385,43 @@ export function SiteHeader() {
           </div>
 
           <nav
-            className="flex flex-1 flex-col overflow-y-auto px-2 py-4 text-[15px] font-medium"
+            className="flex flex-1 flex-col overflow-y-auto px-3 py-6"
             aria-label="Mobile main"
           >
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-lg px-3 py-3.5 text-foreground/90 transition-[background-color,color,transform] duration-300 motion-safe:hover:translate-x-0.5 motion-safe:hover:bg-cream motion-safe:hover:text-foreground"
-                onClick={close}
-              >
-                {link.label}
-              </Link>
+              <div key={link.href} className="border-b border-line/50 last:border-none">
+                <Link
+                  href={link.href}
+                  className="flex w-full items-center justify-between py-4 px-2 text-[15px] font-medium uppercase tracking-wide text-foreground/90 transition-colors hover:text-gold"
+                  onClick={close}
+                >
+                  {link.label}
+                </Link>
+                {link.megaMenu && (
+                  <div className="pl-4 pb-4 space-y-6">
+                    {link.megaMenu.sections.map((section) => (
+                      <div key={section.title}>
+                        <h4 className="text-[11px] tracking-[0.2em] font-semibold mb-3 text-foreground/70 uppercase">
+                          {section.title}
+                        </h4>
+                        <ul className="flex flex-col gap-2.5">
+                          {section.links.map((sublink) => (
+                            <li key={sublink.href}>
+                              <Link
+                                href={sublink.href}
+                                className="text-[13px] text-muted hover:text-gold transition-colors uppercase"
+                                onClick={close}
+                              >
+                                {sublink.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </nav>
         </div>
@@ -172,7 +432,7 @@ export function SiteHeader() {
 
 function SearchIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"
         stroke="currentColor"
@@ -185,7 +445,7 @@ function SearchIcon() {
 
 function UserIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"
         stroke="currentColor"
@@ -198,7 +458,7 @@ function UserIcon() {
 
 function BagIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M6 7h15l-1 12H7L6 7zm0 0L5 3H2M9 11v6M15 11v6M9 7V5a3 3 0 016 0v2"
         stroke="currentColor"
@@ -212,7 +472,7 @@ function BagIcon() {
 
 function CloseIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M18 6L6 18M6 6l12 12"
         stroke="currentColor"
