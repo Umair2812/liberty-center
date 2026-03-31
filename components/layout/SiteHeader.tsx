@@ -26,47 +26,45 @@ type NavLink = {
 };
 
 const navLinks: NavLink[] = [
-  { href: "/", label: "Home" },
   { 
-    href: "/shop", 
-    label: "Shop",
+    href: "/stitched", 
+    label: "Stitched",
     megaMenu: {
       sections: [
         {
           title: "Women",
           links: [
-            { label: "Ready to Wear", href: "/shop/women/ready-to-wear" },
-            { label: "Unstitched", href: "/shop/women/unstitched" },
-            { label: "Bottoms", href: "/shop/women/bottoms" },
-            { label: "Sleepwear", href: "/shop/women/sleepwear" },
+            { label: "Ready to Wear", href: "/stitched/women/ready-to-wear" },
+            { label: "Bottoms", href: "/stitched/women/bottoms" },
+            { label: "Sleepwear", href: "/stitched/women/sleepwear" },
           ]
         },
         {
           title: "Men",
           links: [
-            { label: "Kurta/Shalwar Kameez", href: "/shop/men/kurta-shalwar-kameez" },
-            { label: "Waistcoats", href: "/shop/men/waistcoats" },
-            { label: "Bottoms", href: "/shop/men/bottoms" },
+            { label: "Kurta/Shalwar Kameez", href: "/stitched/men/kurta-shalwar-kameez" },
+            { label: "Waistcoats", href: "/stitched/men/waistcoats" },
+            { label: "Bottoms", href: "/stitched/men/bottoms" },
           ]
         },
         {
           title: "Kids",
           links: [
-            { label: "Girls", href: "/shop/kids/girls" },
-            { label: "Boys", href: "/shop/kids/boys" },
+            { label: "Girls", href: "/stitched/kids/girls" },
+            { label: "Boys", href: "/stitched/kids/boys" },
           ]
         }
       ],
       featured: {
         image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
-        title: "Latest Collection",
-        href: "/shop/latest",
+        title: "Latest Stitched",
+        href: "/stitched/latest",
       }
     }
   },
   { 
-    href: "/unstitched-clothes", 
-    label: "Unstitched clothes",
+    href: "/unstitched", 
+    label: "Un-Stitched",
     megaMenu: {
       sections: [
         {
@@ -91,7 +89,35 @@ const navLinks: NavLink[] = [
       featured: {
         image: "https://images.unsplash.com/photo-1583391733958-d25e07fac04f?q=80&w=800&auto=format&fit=crop",
         title: "Premium Unstitched",
-        href: "/unstitched-clothes/premium",
+        href: "/unstitched/premium",
+      }
+    }
+  },
+  { 
+    href: "/premium", 
+    label: "Premium",
+    megaMenu: {
+      sections: [
+        {
+          title: "Collections",
+          links: [
+            { label: "Bridal", href: "/premium/bridal" },
+            { label: "Formals", href: "/premium/formals" },
+            { label: "Luxury Pret", href: "/premium/luxury-pret" },
+          ]
+        },
+        {
+          title: "Categories",
+          links: [
+            { label: "Women's Premium", href: "/premium/women" },
+            { label: "Men's Premium", href: "/premium/men" },
+          ]
+        }
+      ],
+      featured: {
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
+        title: "The Bloom Affair",
+        href: "/premium",
       }
     }
   },
@@ -141,35 +167,6 @@ const navLinks: NavLink[] = [
     },
   },
   { 
-    href: "/new-arrivals", 
-    label: "New Arrivals",
-    megaMenu: {
-      sections: [
-        {
-          title: "Latest",
-          links: [
-            { label: "This Week", href: "/new-arrivals/this-week" },
-            { label: "Just Dropped", href: "/new-arrivals/just-dropped" },
-            { label: "Restocks", href: "/new-arrivals/restocks" },
-          ]
-        },
-        {
-          title: "Categories",
-          links: [
-            { label: "Women's New", href: "/new-arrivals/women" },
-            { label: "Men's New", href: "/new-arrivals/men" },
-            { label: "Accessories", href: "/new-arrivals/accessories" },
-          ]
-        }
-      ],
-      featured: {
-        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
-        title: "The Bloom Affair",
-        href: "/new-arrivals",
-      }
-    }
-  },
-  { 
     href: "/sale", 
     label: "Sale",
     megaMenu: {
@@ -197,9 +194,7 @@ const navLinks: NavLink[] = [
         href: "/sale",
       }
     }
-  },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  }
 ];
 
 export function SiteHeader() {
@@ -231,8 +226,9 @@ export function SiteHeader() {
   return (
     <>
       <header className="group/header sticky top-0 z-50 border-b border-line bg-background/90 shadow-[0_1px_0_rgba(44,40,37,0.04)] backdrop-blur-md transition-all duration-300 hover:bg-background supports-[backdrop-filter]:bg-background/80 hover:supports-[backdrop-filter]:bg-background">
-        <Container className="flex h-14 items-center justify-between gap-3 sm:h-16 lg:h-[4.25rem]">
-          <div className="flex h-full min-w-0 flex-1 items-center gap-3 lg:gap-8">
+        <div className="grid grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto_1fr] w-full px-4 md:px-8 lg:px-8 xl:px-10 h-14 items-center gap-4 sm:h-16 sm:gap-6 lg:h-[4.25rem] lg:gap-6 xl:gap-8">
+          {/* Left Block: Mobile Menu & Desktop Nav */}
+          <div className="flex h-full min-w-0 items-center justify-start">
             <button
               type="button"
               className="flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full text-foreground transition-colors hover:bg-cream lg:hidden"
@@ -252,25 +248,17 @@ export function SiteHeader() {
               />
             </button>
 
-            <Link
-              href="/"
-              className="font-display truncate text-lg font-semibold tracking-tight text-foreground transition-colors duration-300 hover:text-gold sm:text-xl lg:text-3xl lg:-mt-1"
-              onClick={close}
-            >
-              Liberty Center
-            </Link>
-
             <nav
-              className="ml-auto hidden h-full max-w-none items-center text-[11px] font-medium text-foreground/85 min-[1100px]:text-[13px] lg:flex xl:text-sm"
+              className="hidden h-full max-w-none items-center text-[10px] sm:text-[11px] font-medium text-foreground/85 lg:flex lg:text-[12px]"
               aria-label="Main"
             >
               {navLinks.map((link) => (
                 <div key={link.href} className="group flex h-full items-center">
                   <Link
                     href={link.href}
-                    className="relative flex h-full items-center px-3 xl:px-4 whitespace-nowrap transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-[1px] after:h-[2px] after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 after:ease-out hover:text-foreground group-hover:after:scale-x-100"
+                    className="relative flex h-full items-center px-1.5 lg:px-2 xl:px-3 whitespace-nowrap transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-[1px] after:h-[2px] after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 after:ease-out hover:text-foreground group-hover:after:scale-x-100"
                   >
-                    <span className="uppercase tracking-wider text-xs">{link.label}</span>
+                    <span className={`uppercase tracking-wider text-xs ${link.label === "Sale" ? "text-red-500 hover:text-red-600" : ""}`}>{link.label}</span>
                   </Link>
 
                   {link.megaMenu && (
@@ -300,7 +288,7 @@ export function SiteHeader() {
                           </div>
                           {link.megaMenu.featured && (
                             <div className="flex flex-col w-[26rem] shrink-0">
-                              <Link href={link.megaMenu.featured.href} className="group/feat overflow-hidden">
+                                <Link href={link.megaMenu.featured.href} className="group/feat overflow-hidden">
                                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-cream mb-4">
                                   <Image
                                     src={link.megaMenu.featured.image}
@@ -324,7 +312,19 @@ export function SiteHeader() {
             </nav>
           </div>
 
-          <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-2 lg:w-48">
+          {/* Central Block: Brand Logo */}
+          <div className="flex items-center justify-center">
+            <Link
+              href="/"
+              className="font-display truncate text-lg font-semibold tracking-tight text-foreground transition-colors duration-300 hover:text-gold sm:text-xl lg:text-3xl lg:-mt-1"
+              onClick={close}
+            >
+              Liberty Center
+            </Link>
+          </div>
+
+          {/* Right Block: Utilities */}
+          <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-2">
             <Link
               href="/search"
               className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/80 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:text-gold"
@@ -347,7 +347,7 @@ export function SiteHeader() {
               <BagIcon />
             </Link>
           </div>
-        </Container>
+        </div>
       </header>
 
       {/* Mobile drawer + overlay */}
