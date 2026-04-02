@@ -5,4 +5,5 @@ export type {
   HomeCategory,
   HomeCollection,
   HomeProduct,
+  ProductWearType,
 } from "@/data/home";

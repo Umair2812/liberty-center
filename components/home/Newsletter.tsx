@@ -38,6 +38,7 @@ export function Newsletter() {
             />
             <button
               type="submit"
+              suppressHydrationWarning
               className="h-12 min-h-12 shrink-0 touch-manipulation bg-foreground px-8 text-sm font-medium text-background transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:bg-gold motion-safe:hover:shadow-md motion-safe:active:translate-y-0 sm:px-10"
             >
               Subscribe

@@ -169,7 +169,62 @@
   }
 }
 
+@keyframes pdp-gallery-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pdp-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pdp-tab-content {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .animate-pdp-gallery-cell {
+    opacity: 0;
+    animation: pdp-gallery-in 0.55s ease-out forwards;
+    animation-delay: calc(var(--pdp-stagger, 0) * 65ms);
+  }
+
+  .animate-pdp-panel {
+    animation: pdp-panel-in 0.65s ease-out both;
+  }
+
+  .animate-pdp-tab-content {
+    animation: pdp-tab-content 0.35s ease-out both;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .animate-pdp-gallery-cell,
+  .animate-pdp-panel,
+  .animate-pdp-tab-content {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
   .animate-promo-kenburns,
   .animate-promo-fade-up,
   .animate-promo-fade-up-delay-1,

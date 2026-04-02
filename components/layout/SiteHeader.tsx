@@ -262,7 +262,7 @@ export function SiteHeader() {
                   </Link>
 
                   {link.megaMenu && (
-                    <div className="absolute left-0 top-full w-full bg-background opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t border-line shadow-xl">
+                    <div className="pointer-events-none absolute left-0 top-full z-50 w-full border-t border-line bg-background opacity-0 shadow-xl invisible transition-all duration-300 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100">
                       <Container>
                         <div className="flex py-12 justify-between">
                           <div className="flex gap-16 xl:gap-24">
@@ -357,7 +357,7 @@ export function SiteHeader() {
       >
         <button
           type="button"
-          className={`absolute inset-0 bg-foreground/40 backdrop-blur-[2px] transition-opacity duration-300 ease-out ${open ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 bg-foreground/40 backdrop-blur-[2px] transition-[opacity,pointer-events] duration-300 ease-out ${open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
           aria-label="Close menu"
           tabIndex={open ? 0 : -1}
           onClick={close}
@@ -368,7 +368,7 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation menu"
-          className={`absolute inset-y-0 left-0 flex w-[min(100%,22rem)] max-w-[85vw] flex-col border-r border-line bg-background shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
+          className={`absolute inset-y-0 left-0 flex w-[min(100%,22rem)] max-w-[85vw] flex-col border-r border-line bg-background shadow-2xl transition-[transform,pointer-events] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "pointer-events-auto translate-x-0" : "pointer-events-none -translate-x-full"}`}
         >
           <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-5 sm:h-16">
             <span className="font-display text-lg font-semibold text-foreground">

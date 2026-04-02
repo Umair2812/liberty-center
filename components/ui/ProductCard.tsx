@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatPkr } from "@/lib/format";
 import type { HomeProduct } from "@/types";
+import { wearTypeLabel } from "@/lib/wearType";
 
 type ProductCardProps = {
   product: HomeProduct;
@@ -55,11 +56,21 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
           ) : null}
         </div>
 
-        <div className="flex flex-col gap-1.5 px-3.5 pb-1 pt-4 sm:px-5 sm:pt-5">
-          <h3 className="font-display text-[length:var(--text-body-lg)] font-medium leading-snug tracking-tight text-foreground transition-colors duration-300 group-hover/card:text-gold sm:text-lg">
+        <div className="flex flex-col gap-2 px-3.5 pb-1 pt-4 sm:px-5 sm:pt-5">
+          <h3 className="line-clamp-2 text-[10px] font-medium uppercase leading-snug tracking-[0.12em] text-muted transition-colors duration-300 group-hover/card:text-foreground/80 sm:text-[11px] sm:tracking-[0.1em]">
             {product.name}
           </h3>
-          <p className="text-sm font-medium tabular-nums tracking-tight text-foreground/78 transition-colors duration-300 group-hover/card:text-foreground/90">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wide text-foreground">
+              {wearTypeLabel(product.wearType)}
+            </span>
+            {product.badge?.toLowerCase().includes("new") ? (
+              <span className="bg-red-600 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-white">
+                New in
+              </span>
+            ) : null}
+          </div>
+          <p className="text-sm font-medium tabular-nums tracking-tight text-muted transition-colors duration-300 group-hover/card:text-foreground/85">
             {formatPkr(product.price)}
           </p>
         </div>
@@ -68,6 +79,7 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
       <div className="mt-auto px-3.5 pb-4 pt-1 sm:px-5 sm:pb-5">
         <button
           type="button"
+          suppressHydrationWarning
           className="w-full min-h-11 touch-manipulation rounded-lg border border-line/90 bg-background py-2.5 text-[13px] font-medium tracking-wide text-foreground shadow-[0_1px_3px_rgba(44,40,37,0.05)] transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:border-foreground/25 motion-safe:hover:bg-foreground motion-safe:hover:text-background motion-safe:hover:shadow-[0_6px_20px_rgba(44,40,37,0.14)] motion-safe:active:translate-y-0"
         >
           Add to cart

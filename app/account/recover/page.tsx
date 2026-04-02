@@ -8,7 +8,8 @@ export const metadata: Metadata = {
 export default function RecoverPasswordPage() {
   return (
     <main className="min-h-[calc(100vh-4.25rem)] flex items-center justify-center bg-[#f4f4f4] py-16 px-4">
-      <div className="w-full max-w-[460px] flex flex-col items-center">
+      <div className="w-full max-w-115 flex flex-col items-center">
+        
         <h1 className="font-display text-2xl md:text-[28px] tracking-[0.25em] text-foreground mb-6 uppercase text-center">
           Recover Password
         </h1>

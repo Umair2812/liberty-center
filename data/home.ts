@@ -7,6 +7,9 @@ export type HomeCategory = {
   tagline?: string;
 };
 
+/** Shown on cards and PDP — matches Nishat-style labeling */
+export type ProductWearType = "ready-to-wear" | "unstitched" | "stitched";
+
 export type HomeProduct = {
   id: string;
   name: string;
@@ -17,6 +20,7 @@ export type HomeProduct = {
   badge?: string;
   /** Alternate image for hover crossfade (optional) */
   hoverImage?: string;
+  wearType: ProductWearType;
 };
 
 export type HomeCollection = {
@@ -107,6 +111,7 @@ export const featuredProducts: HomeProduct[] = [
       "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/noor-embroidered-lawn",
     badge: "Featured",
+    wearType: "unstitched",
   },
   {
     id: "fp-2",
@@ -116,6 +121,7 @@ export const featuredProducts: HomeProduct[] = [
     image:
       "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/riva-silk-dupatta-set",
+    wearType: "unstitched",
   },
   {
     id: "fp-3",
@@ -125,6 +131,7 @@ export const featuredProducts: HomeProduct[] = [
     image:
       "https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/lina-chiffon-pret",
+    wearType: "ready-to-wear",
   },
   {
     id: "fp-4",
@@ -134,6 +141,7 @@ export const featuredProducts: HomeProduct[] = [
     image:
       "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80",
     href: "/product/mira-block-print-kurta",
+    wearType: "ready-to-wear",
   },
 ];
 
@@ -158,6 +166,7 @@ export const newArrivals: HomeProduct[] = [
       "https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/zahra-3-piece-lawn",
     badge: "New",
+    wearType: "unstitched",
   },
   {
     id: "2",
@@ -167,6 +176,7 @@ export const newArrivals: HomeProduct[] = [
     image:
       "https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/mehra-unstitched-silk",
+    wearType: "unstitched",
   },
   {
     id: "3",
@@ -176,6 +186,7 @@ export const newArrivals: HomeProduct[] = [
     image:
       "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/aila-embroidered-kurta",
+    wearType: "stitched",
   },
   {
     id: "4",
@@ -186,6 +197,7 @@ export const newArrivals: HomeProduct[] = [
       "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=format&fit=crop&w=800&q=80",
     href: "/product/sapphire-pret-set",
     badge: "Limited",
+    wearType: "ready-to-wear",
   },
 ];
 

@@ -14,6 +14,8 @@ export const showcaseProducts: HomeProduct[] = [
     hoverImage:
       "https://images.unsplash.com/photo-1581044777550-aa7750db9da7?auto=format&fit=crop&w=800&q=80",
     href: "/product/ariya-embroidered-lawn",
+    wearType: "unstitched",
+    badge: "New",
   },
   {
     id: "show-2",
@@ -25,6 +27,7 @@ export const showcaseProducts: HomeProduct[] = [
     hoverImage:
       "https://images.unsplash.com/photo-1550614000-4b9519e02a4d?auto=format&fit=crop&w=800&q=80",
     href: "/product/sana-silk-unstitched",
+    wearType: "unstitched",
   },
   {
     id: "show-3",
@@ -34,6 +37,7 @@ export const showcaseProducts: HomeProduct[] = [
     image:
       "https://images.unsplash.com/photo-1583496661160-fb5886a13d22?auto=format&fit=crop&w=800&q=80",
     href: "/product/nyla-chiffon-pret",
+    wearType: "ready-to-wear",
   },
   {
     id: "show-4",
@@ -45,6 +49,7 @@ export const showcaseProducts: HomeProduct[] = [
     hoverImage:
       "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80",
     href: "/product/zeenat-velvet-shawl-set",
+    wearType: "unstitched",
   },
   {
     id: "show-5",
@@ -53,7 +58,8 @@ export const showcaseProducts: HomeProduct[] = [
     category: "Stitched",
     image:
       "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80",
-    href: "/product/mira-block-print-kurta",
+    href: "/product/farida-stitched-kurta",
+    wearType: "stitched",
   },
   {
     id: "show-6",
@@ -65,6 +71,7 @@ export const showcaseProducts: HomeProduct[] = [
     hoverImage:
       "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
     href: "/product/leena-party-ensemble",
+    wearType: "ready-to-wear",
   },
   {
     id: "show-7",
@@ -74,6 +81,7 @@ export const showcaseProducts: HomeProduct[] = [
     image:
       "https://images.unsplash.com/photo-1515372031174-ab54a49f10ed?auto=format&fit=crop&w=800&q=80",
     href: "/product/haya-organza-dupatta",
+    wearType: "ready-to-wear",
   },
   {
     id: "show-8",
@@ -85,5 +93,6 @@ export const showcaseProducts: HomeProduct[] = [
     hoverImage:
       "https://images.unsplash.com/photo-1583496661160-fb5886a13d22?auto=format&fit=crop&w=800&q=80",
     href: "/product/rumi-formal-three-piece",
+    wearType: "unstitched",
   },
 ];
