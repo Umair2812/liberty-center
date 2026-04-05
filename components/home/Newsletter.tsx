@@ -34,6 +34,7 @@ export function Newsletter() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
               autoComplete="email"
+              suppressHydrationWarning
               className="h-12 min-h-12 w-full touch-manipulation border border-line/85 bg-background/95 px-4 text-[length:var(--text-body)] text-foreground placeholder:text-muted/50 outline-none transition-[border-color,box-shadow,background-color] duration-300 focus-visible:border-gold/45 focus-visible:ring-2 focus-visible:ring-gold/20 sm:min-w-0 sm:flex-1"
             />
             <button

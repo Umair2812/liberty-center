@@ -25,6 +25,7 @@ export default function AccountPage() {
               type="email"
               id="email"
               placeholder="E-mail"
+              suppressHydrationWarning
               className="w-full bg-transparent border border-foreground/30 px-4 py-3.5 text-[14px] text-foreground placeholder:text-muted/60 focus:outline-none focus:border-black transition-colors"
               required
             />
@@ -37,6 +38,7 @@ export default function AccountPage() {
               type="password"
               id="password"
               placeholder="Password"
+              suppressHydrationWarning
               className="w-full bg-transparent border border-foreground/30 px-4 py-3.5 text-[14px] text-foreground placeholder:text-muted/60 focus:outline-none focus:border-black transition-colors pr-40"
               required
             />

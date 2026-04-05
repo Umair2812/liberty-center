@@ -26,6 +26,7 @@ export default function RecoverPasswordPage() {
               type="email"
               id="email"
               placeholder="E-mail"
+              suppressHydrationWarning
               className="w-full bg-transparent border border-foreground/30 px-4 py-3.5 text-[14px] text-foreground placeholder:text-muted/60 focus:outline-none focus:border-black transition-colors"
               required
             />
