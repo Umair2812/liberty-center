@@ -139,7 +139,7 @@ export function ProductAddonsSection({
 
   return (
     <section
-      className="border-t border-line pt-8 motion-safe:animate-[pdp-tab-content_0.45s_ease-out_both] sm:pt-10"
+      className="relative z-10 border-t border-line pt-8 motion-safe:animate-[pdp-tab-content_0.45s_ease-out_both] sm:pt-10"
       aria-labelledby="addons-section-title"
     >
       <h2
@@ -152,7 +152,7 @@ export function ProductAddonsSection({
         Tap an item to choose meters or quantity, then review your bundle. Our hand-picked recommendations ensure the perfect match and premium quality..
       </p>
 
-      <div className="mt-6 flex items-stretch gap-1.5 sm:gap-2">
+      <div className="relative isolate mt-6 flex items-stretch gap-1.5 sm:gap-2">
         <button
           type="button"
           suppressHydrationWarning
@@ -177,21 +177,32 @@ export function ProductAddonsSection({
                   key={addon.id}
                   className="flex w-[10.75rem] shrink-0 sm:w-[12.25rem]"
                 >
-                  <button
-                    type="button"
+                  {/* role="button" instead of <button>: native buttons inside overflow-x scrollers often miss taps (esp. mobile). */}
+                  <div
+                    role="button"
+                    tabIndex={0}
                     suppressHydrationWarning
+                    aria-haspopup="dialog"
+                    aria-expanded={configureId === addon.id}
                     onClick={() => openConfigure(addon.id)}
-                    className={`group/addon flex h-full min-h-[17.5rem] w-full touch-manipulation flex-col overflow-hidden rounded-xl border bg-white text-left shadow-[0_2px_16px_rgba(44,40,37,0.06)] ring-1 ring-line/60 transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_12px_32px_rgba(44,40,37,0.1)] motion-safe:hover:ring-gold/25 sm:min-h-[19rem] ${
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openConfigure(addon.id);
+                      }
+                    }}
+                    className={`group/addon relative z-[1] flex h-full min-h-[17.5rem] w-full cursor-pointer touch-manipulation select-none flex-col overflow-hidden rounded-xl border bg-white text-left shadow-[0_2px_16px_rgba(44,40,37,0.06)] ring-1 ring-line/60 transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_12px_32px_rgba(44,40,37,0.1)] motion-safe:hover:ring-gold/25 sm:min-h-[19rem] ${
                       active ? "border-foreground ring-foreground/30" : "border-line/80"
                     }`}
                   >
-                    <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden bg-cream">
+                    <div className="pointer-events-none relative aspect-[4/5] w-full shrink-0 overflow-hidden bg-cream">
                       <Image
                         src={addon.image}
                         alt={addon.label}
                         fill
                         sizes="196px"
-                        className="object-cover transition-transform duration-500 ease-out motion-safe:group-hover/addon:scale-[1.06]"
+                        className="pointer-events-none object-cover transition-transform duration-500 ease-out motion-safe:group-hover/addon:scale-[1.06]"
+                        style={{ pointerEvents: "none" }}
                       />
                       {active ? (
                         <span className="absolute right-2 top-2 rounded bg-foreground px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-background">
@@ -219,7 +230,7 @@ export function ProductAddonsSection({
                         </span>
                       </span>
                     </div>
-                  </button>
+                  </div>
                 </li>
               );
             })}
@@ -294,7 +305,6 @@ function AddonConfigureModal({
   const addon = addonId ? getAddonById(addonId) : undefined;
   const titleId = useId();
   const inputId = useId();
-  const [mounted, setMounted] = useState(false);
   const [entered, setEntered] = useState(false);
   const [raw, setRaw] = useState("");
   const [imgScale, setImgScale] = useState(1);
@@ -313,10 +323,6 @@ function AddonConfigureModal({
   const resetAddonImageView = useCallback(() => {
     setImgScale(1);
     setImgPan({ x: 0, y: 0 });
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -378,11 +384,12 @@ function AddonConfigureModal({
   function endAddonImgDrag(e: React.PointerEvent) {
     const d = imgDragRef.current;
     if (e.pointerId !== d.pointerId) return;
+    const captureId = e.pointerId;
     d.active = false;
     d.pointerId = null;
     setImgDragging(false);
     try {
-      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      (e.currentTarget as HTMLElement).releasePointerCapture(captureId);
     } catch {
       /* ignore */
     }
@@ -426,7 +433,7 @@ function AddonConfigureModal({
     onConfirm(addon.id, parsed);
   }
 
-  if (!open || !addon || !mounted) return null;
+  if (!open || !addon) return null;
 
   const label =
     addon.input === "meters"
@@ -581,12 +588,7 @@ function AddonSummaryModal({
   onAddToCart: () => void;
 }) {
   const titleId = useId();
-  const [mounted, setMounted] = useState(false);
   const [entered, setEntered] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!open) {
@@ -598,13 +600,13 @@ function AddonSummaryModal({
   }, [open]);
 
   useEffect(() => {
-    if (!open || !mounted) return;
+    if (!open) return;
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose, mounted]);
+  }, [open, onClose]);
 
   const lines = useMemo(() => {
     return selections
@@ -620,7 +622,7 @@ function AddonSummaryModal({
   const addonsTotal = lines.reduce((acc, l) => acc + l.sub, 0);
   const grandTotal = productPrice + addonsTotal;
 
-  if (!open || !mounted) return null;
+  if (!open) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-[215] flex items-center justify-center overflow-y-auto p-4 py-10 sm:p-6 sm:py-12">

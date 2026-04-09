@@ -253,7 +253,11 @@ export function SiteHeader() {
               aria-label="Main"
             >
               {navLinks.map((link) => (
-                <div key={link.href} className="group flex h-full items-center">
+                <div
+                  key={link.href}
+                  className="group flex h-full items-center"
+                  suppressHydrationWarning
+                >
                   <Link
                     href={link.href}
                     className="relative flex h-full items-center px-1.5 lg:px-2 xl:px-3 whitespace-nowrap transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-[1px] after:h-[2px] after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 after:ease-out hover:text-foreground group-hover:after:scale-x-100"
