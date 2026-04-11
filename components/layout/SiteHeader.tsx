@@ -28,30 +28,16 @@ type NavLink = {
 const navLinks: NavLink[] = [
   { 
     href: "/stitched", 
-    label: "Stitched",
+    label: "Ready to Wear",
     megaMenu: {
       sections: [
         {
-          title: "Women",
+          title: "Collections",
           links: [
-            { label: "Ready to Wear", href: "/stitched/women/ready-to-wear" },
-            { label: "Bottoms", href: "/stitched/women/bottoms" },
-            { label: "Sleepwear", href: "/stitched/women/sleepwear" },
-          ]
-        },
-        {
-          title: "Men",
-          links: [
-            { label: "Kurta/Shalwar Kameez", href: "/stitched/men/kurta-shalwar-kameez" },
-            { label: "Waistcoats", href: "/stitched/men/waistcoats" },
-            { label: "Bottoms", href: "/stitched/men/bottoms" },
-          ]
-        },
-        {
-          title: "Kids",
-          links: [
-            { label: "Girls", href: "/stitched/kids/girls" },
-            { label: "Boys", href: "/stitched/kids/boys" },
+            { label: "New In", href: "/stitched/new-in" },
+            { label: "Blossom Collection", href: "/stitched/blossom-collection" },
+            { label: "Printed", href: "/stitched/printed" },
+            { label: "Embroidered", href: "/stitched/embroidered" },
           ]
         }
       ],
@@ -64,25 +50,15 @@ const navLinks: NavLink[] = [
   },
   { 
     href: "/unstitched", 
-    label: "Un-Stitched",
+    label: "Unstitched",
     megaMenu: {
       sections: [
         {
-          title: "Fabric",
+          title: "Collections",
           links: [
-            { label: "Lawn", href: "/unstitched/lawn" },
-            { label: "Silk", href: "/unstitched/silk" },
-            { label: "Chiffon", href: "/unstitched/chiffon" },
-            { label: "Cotton", href: "/unstitched/cotton" },
-            { label: "Cambric", href: "/unstitched/cambric" },
-          ]
-        },
-        {
-          title: "Pieces",
-          links: [
-            { label: "1 Piece", href: "/unstitched/1-piece" },
-            { label: "2 Piece", href: "/unstitched/2-piece" },
-            { label: "3 Piece", href: "/unstitched/3-piece" },
+            { label: "New In", href: "/unstitched/new-in" },
+            { label: "Printed", href: "/unstitched/printed" },
+            { label: "Embroidered", href: "/unstitched/embroidered" },
           ]
         }
       ],
@@ -95,22 +71,16 @@ const navLinks: NavLink[] = [
   },
   { 
     href: "/premium", 
-    label: "Premium",
+    label: "Luxury",
     megaMenu: {
       sections: [
         {
           title: "Collections",
           links: [
-            { label: "Bridal", href: "/premium/bridal" },
-            { label: "Formals", href: "/premium/formals" },
-            { label: "Luxury Pret", href: "/premium/luxury-pret" },
-          ]
-        },
-        {
-          title: "Categories",
-          links: [
-            { label: "Women's Premium", href: "/premium/women" },
-            { label: "Men's Premium", href: "/premium/men" },
+            { label: "New In", href: "/premium/new-in" },
+            { label: "Embroidered", href: "/premium/embroidered" },
+            { label: "Party Wear", href: "/premium/party-wear" },
+            { label: "Wedding Wear", href: "/premium/wedding-wear" },
           ]
         }
       ],
@@ -127,36 +97,16 @@ const navLinks: NavLink[] = [
     megaMenu: {
       sections: [
         {
-          title: "Bags",
+          title: "Fabric",
           links: [
-            { label: "Clutches", href: "/accessories/clutches" },
-            { label: "Hand Bags", href: "/accessories/hand-bags" },
-            { label: "Backpacks", href: "/accessories/backpacks" },
-            { label: "Phone Bags", href: "/accessories/phone-bags" },
-            { label: "Tote Bags", href: "/accessories/tote-bags" },
-            { label: "Wallets", href: "/accessories/wallets" },
-            { label: "Vanity Bags", href: "/accessories/vanity-bags" },
+            { label: "Lace", href: "/accessories/lace" },
+            { label: "Tussle", href: "/accessories/tussle" },
+            { label: "Buttons", href: "/accessories/buttons" },
+            { label: "Silk", href: "/accessories/silk" },
+            { label: "Chiffon", href: "/accessories/chiffon" },
+            { label: "Net", href: "/accessories/net" },
+            { label: "Organza", href: "/accessories/organza" },
           ],
-        },
-        {
-          title: "Footwear",
-          links: [
-            { label: "Slides", href: "/accessories/slides" },
-            { label: "Heels", href: "/accessories/heels" },
-            { label: "Block Heels", href: "/accessories/block-heels" },
-            { label: "Canvas", href: "/accessories/canvas" },
-            { label: "Khussa", href: "/accessories/khussa" },
-            { label: "Mules", href: "/accessories/mules" },
-            { label: "Loafers", href: "/accessories/loafers" },
-          ],
-        },
-        {
-          title: "Wraps",
-          links: [{ label: "Scarf", href: "/accessories/scarf" }],
-        },
-        {
-          title: "Camisole",
-          links: [{ label: "All Camisoles", href: "/accessories/camisole" }],
         },
       ],
       featured: {
