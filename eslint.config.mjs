@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Sync state-from-props in effects is intentional for these UI modules; the
+  // rule flags common modal / gallery reset patterns.
+  {
+    files: ["components/product/**/*.tsx"],
+    rules: {
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

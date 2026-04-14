@@ -4,6 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useId, useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { BagIcon } from "@/components/icons/BagIcon";
+import { useCart } from "@/context/CartContext";
+import { ShoppingBagDrawer } from "@/components/layout/ShoppingBagDrawer";
 
 type MegaMenuSection = {
   title: string;
@@ -199,28 +202,42 @@ const navLinks: NavLink[] = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [bagOpen, setBagOpen] = useState(false);
   const drawerId = useId();
+  const bagPanelId = useId();
+  const { itemCount } = useCart();
 
   useEffect(() => {
-    if (!open) return;
+    if (!open && !bagOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [open]);
+  }, [open, bagOpen]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open && !bagOpen) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Escape") return;
+      if (bagOpen) setBagOpen(false);
+      else setOpen(false);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, bagOpen]);
 
   function close() {
     setOpen(false);
+  }
+
+  function closeBag() {
+    setBagOpen(false);
+  }
+
+  function openBag() {
+    setOpen(false);
+    setBagOpen(true);
   }
 
   return (
@@ -343,13 +360,19 @@ export function SiteHeader() {
             >
               <UserIcon />
             </Link>
-            <Link
-              href="/cart"
-              className="flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/80 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:text-gold"
-              aria-label="Cart"
+            <button
+              type="button"
+              className="relative flex h-10 w-10 min-h-10 min-w-10 touch-manipulation items-center justify-center rounded-full text-foreground/80 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:text-gold"
+              aria-label="Shopping cart"
+              aria-expanded={bagOpen}
+              aria-controls={bagPanelId}
+              onClick={openBag}
             >
               <BagIcon />
-            </Link>
+              <span className="pointer-events-none absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#000000] px-1 text-[10px] font-semibold tabular-nums leading-none text-white">
+                {itemCount > 99 ? "99+" : itemCount}
+              </span>
+            </button>
           </div>
         </div>
       </header>
@@ -430,6 +453,12 @@ export function SiteHeader() {
           </nav>
         </div>
       </div>
+
+      <ShoppingBagDrawer
+        open={bagOpen}
+        onClose={closeBag}
+        panelId={bagPanelId}
+      />
     </>
   );
 }
@@ -455,20 +484,6 @@ function UserIcon() {
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function BagIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M6 7h15l-1 12H7L6 7zm0 0L5 3H2M9 11v6M15 11v6M9 7V5a3 3 0 016 0v2"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   );

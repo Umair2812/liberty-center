@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { Providers } from "@/components/Providers";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -39,9 +40,11 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} h-full scroll-smooth antialiased`}
     >
       <body className="flex min-h-dvh min-h-full flex-col" suppressHydrationWarning>
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

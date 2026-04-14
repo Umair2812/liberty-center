@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 import { formatPkr } from "@/lib/format";
 import type { HomeProduct } from "@/types";
 import { wearTypeLabel } from "@/lib/wearType";
@@ -10,7 +13,18 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, className = "" }: ProductCardProps) {
+  const { addItem } = useCart();
   const hasSwap = Boolean(product.hoverImage);
+
+  function handleAddToCart() {
+    addItem({
+      id: product.id,
+      title: product.name.toUpperCase(),
+      price: product.price,
+      image: product.image,
+      inStock: true,
+    });
+  }
 
   return (
     <article
@@ -79,6 +93,7 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
       <div className="mt-auto px-3.5 pb-4 pt-1 sm:px-5 sm:pb-5">
         <button
           type="button"
+          onClick={handleAddToCart}
           suppressHydrationWarning
           className="w-full min-h-11 touch-manipulation rounded-lg border border-line/90 bg-background py-2.5 text-[13px] font-medium tracking-wide text-foreground shadow-[0_1px_3px_rgba(44,40,37,0.05)] transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:border-foreground/25 motion-safe:hover:bg-foreground motion-safe:hover:text-background motion-safe:hover:shadow-[0_6px_20px_rgba(44,40,37,0.14)] motion-safe:active:translate-y-0"
         >
