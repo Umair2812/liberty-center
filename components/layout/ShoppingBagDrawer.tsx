@@ -5,10 +5,19 @@ import Link from "next/link";
 import { useId, type ReactNode } from "react";
 import {
   FREE_SHIPPING_THRESHOLD_PKR,
+  isAddonCartLine,
   useCart,
 } from "@/context/CartContext";
+import type { AddonInputKind } from "@/data/productAddons";
 import { formatRs } from "@/lib/format";
 import emptyShoppingCart from "@/components/icons/emptyShoppingCart.png";
+
+function addonAmountLabel(amount: number, input: AddonInputKind): string {
+  if (input === "quantity") return String(Math.max(1, Math.round(amount)));
+  const rounded = Math.round(amount * 100) / 100;
+  if (Number.isInteger(rounded)) return String(rounded);
+  return rounded.toFixed(2).replace(/\.?0+$/, "");
+}
 
 type ShoppingBagDrawerProps = {
   open: boolean;
@@ -140,62 +149,95 @@ export function ShoppingBagDrawer({
               </section>
 
               <ul className="divide-y divide-line">
-                {lines.map((line) => (
-                  <li
-                    key={line.id}
-                    className="flex gap-3 px-5 py-4 sm:px-6"
-                  >
-                    <div className="relative h-[5.5rem] w-[4.5rem] shrink-0 bg-[#f5f5f5]">
-                      <Image
-                        src={line.image}
-                        alt=""
-                        fill
-                        className="object-cover"
-                        sizes="90px"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.08em] text-[#000000] sm:text-[11px]">
-                        {line.title}
-                      </p>
-                      <p className="mt-1 text-xs tabular-nums text-[#888888]">
-                        {formatRs(line.price)}
-                      </p>
-                      {line.inStock ? (
-                        <p className="mt-0.5 text-[11px] font-medium text-green-600">
-                          In Stock
-                        </p>
-                      ) : null}
-                      <div className="mt-2.5">
-                        <div className="flex items-center gap-2">
-                          <QtyCircleButton
-                            label="Decrease quantity"
-                            onClick={() => decrement(line.id)}
-                          >
-                            <MinusGlyph />
-                          </QtyCircleButton>
-                          <span className="min-w-[1.25rem] text-center text-sm font-medium tabular-nums text-[#000000]">
-                            {line.quantity}
-                          </span>
-                          <QtyCircleButton
-                            label="Increase quantity"
-                            onClick={() => increment(line.id)}
-                          >
-                            <PlusGlyph />
-                          </QtyCircleButton>
-                        </div>
-                        <button
-                          type="button"
-                          className="mt-2 flex h-8 w-8 items-center justify-center text-[#000000] transition-colors hover:bg-black/5"
-                          aria-label={`Remove ${line.title} from bag`}
-                          onClick={() => removeLine(line.id)}
-                        >
-                          <TrashGlyph />
-                        </button>
+                {lines.map((line) => {
+                  const addon = isAddonCartLine(line);
+                  const lineTotal = addon
+                    ? line.unitPrice * line.amount
+                    : line.price * line.quantity;
+                  const unitOrQtyLabel = addon
+                    ? addonAmountLabel(line.amount, line.input)
+                    : String(line.quantity);
+
+                  return (
+                    <li
+                      key={line.id}
+                      className="flex gap-3 px-5 py-4 sm:px-6"
+                    >
+                      <div className="relative h-[5.5rem] w-[4.5rem] shrink-0 bg-[#f5f5f5]">
+                        <Image
+                          src={line.image}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          sizes="90px"
+                        />
                       </div>
-                    </div>
-                  </li>
-                ))}
+                      <div className="min-w-0 flex-1">
+                        {addon ? (
+                          <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
+                            Add-on
+                          </p>
+                        ) : null}
+                        <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.08em] text-[#000000] sm:text-[11px]">
+                          {line.title}
+                        </p>
+                        <p className="mt-1 text-xs tabular-nums text-[#888888]">
+                          {addon ? (
+                            <>
+                              {formatRs(lineTotal)}
+                              <span className="ml-1.5 font-normal">
+                                ({formatRs(line.unitPrice)}/
+                                {line.input === "meters" ? "m" : "pc"})
+                              </span>
+                            </>
+                          ) : (
+                            formatRs(line.price)
+                          )}
+                        </p>
+                        {line.inStock ? (
+                          <p className="mt-0.5 text-[11px] font-medium text-green-600">
+                            In Stock
+                          </p>
+                        ) : null}
+                        <div className="mt-2.5">
+                          <div className="flex items-center gap-2">
+                            <QtyCircleButton
+                              label={
+                                addon
+                                  ? "Decrease amount"
+                                  : "Decrease quantity"
+                              }
+                              onClick={() => decrement(line.id)}
+                            >
+                              <MinusGlyph />
+                            </QtyCircleButton>
+                            <span className="min-w-[2rem] text-center text-sm font-medium tabular-nums text-[#000000]">
+                              {unitOrQtyLabel}
+                            </span>
+                            <QtyCircleButton
+                              label={
+                                addon
+                                  ? "Increase amount"
+                                  : "Increase quantity"
+                              }
+                              onClick={() => increment(line.id)}
+                            >
+                              <PlusGlyph />
+                            </QtyCircleButton>
+                          </div>
+                          <button
+                            type="button"
+                            className="mt-2 flex h-8 w-8 items-center justify-center text-[#000000] transition-colors hover:bg-black/5"
+                            aria-label={`Remove ${line.title} from bag`}
+                            onClick={() => removeLine(line.id)}
+                          >
+                            <TrashGlyph />
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
@@ -205,18 +247,20 @@ export function ShoppingBagDrawer({
                 <span className="tabular-nums">{formatRs(subtotal)}</span>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-1">
-                <button
-                  type="button"
-                  className="bg-[#000000] py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-white sm:text-[11px]"
+                <Link
+                  href="/cart"
+                  onClick={onClose}
+                  className="flex items-center justify-center bg-[#000000] py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-white sm:text-[11px]"
                 >
                   View Bag
-                </button>
-                <button
-                  type="button"
-                  className="bg-[#000000] py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-white sm:text-[11px]"
+                </Link>
+                <Link
+                  href="/checkout"
+                  onClick={onClose}
+                  className="flex items-center justify-center bg-[#000000] py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-white sm:text-[11px]"
                 >
                   Checkout
-                </button>
+                </Link>
               </div>
               <Link
                 href="/shop"

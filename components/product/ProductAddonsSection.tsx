@@ -5,6 +5,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom";
 import type { ProductAddonDef } from "@/data/productAddons";
 import { PRODUCT_ADDONS, addonUnitLabel, getAddonById } from "@/data/productAddons";
+import { useCart } from "@/context/CartContext";
 import { formatPkr } from "@/lib/format";
 
 type AddonSelection = {
@@ -40,6 +41,7 @@ export function ProductAddonsSection({
   const [toast, setToast] = useState<string | null>(null);
   const addonsScrollerRef = useRef<HTMLDivElement>(null);
   const [addonScroll, setAddonScroll] = useState({ canLeft: false, canRight: false });
+  const { addBundleWithAddons } = useCart();
 
   const updateAddonScrollState = useCallback(() => {
     const el = addonsScrollerRef.current;
@@ -132,10 +134,24 @@ export function ProductAddonsSection({
   }, [productSlug, productTitle, productPrice, selections]);
 
   const addBundleToCart = useCallback(() => {
-    setToast("Bundle added to cart (demo).");
+    addBundleWithAddons({
+      productSlug,
+      productTitle,
+      productPrice,
+      productImage,
+      selections,
+    });
+    setToast("Added to your bag.");
     setTimeout(() => setToast(null), 3200);
     setSummaryOpen(false);
-  }, []);
+  }, [
+    addBundleWithAddons,
+    productSlug,
+    productTitle,
+    productPrice,
+    productImage,
+    selections,
+  ]);
 
   return (
     <section

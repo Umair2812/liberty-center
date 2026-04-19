@@ -152,10 +152,13 @@ const navLinks: NavLink[] = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const [bagOpen, setBagOpen] = useState(false);
   const drawerId = useId();
   const bagPanelId = useId();
-  const { itemCount } = useCart();
+  const { itemCount, bagOpen, setBagOpen } = useCart();
+
+  useEffect(() => {
+    if (bagOpen) setOpen(false);
+  }, [bagOpen]);
 
   useEffect(() => {
     if (!open && !bagOpen) return;

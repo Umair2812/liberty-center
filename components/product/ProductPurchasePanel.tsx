@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { ProductDetail } from "@/data/productDetails";
+import { useCart } from "@/context/CartContext";
 import { formatPkr } from "@/lib/format";
 import { showSizeGuideAndSizes, wearTypeLabel } from "@/lib/wearType";
 import { SizeGuideModal } from "@/components/product/SizeGuideModal";
@@ -24,6 +25,7 @@ export function ProductPurchasePanel({ detail }: ProductPurchasePanelProps) {
   const [qty, setQty] = useState(1);
   const [size, setSize] = useState<string | null>(null);
   const [guideOpen, setGuideOpen] = useState(false);
+  const { addItem } = useCart();
 
   const hasSizes = Boolean(detail.sizes?.length);
   const showGuide = showSizeGuideAndSizes(detail.wearType);
@@ -40,6 +42,31 @@ export function ProductPurchasePanel({ detail }: ProductPurchasePanelProps) {
   function bumpQty(delta: number) {
     setQty((q) => Math.min(10, Math.max(1, q + delta)));
   }
+
+  const addProductToCart = useCallback(() => {
+    if (!canSubmit) return;
+    const baseTitle = detail.title.toUpperCase();
+    const title =
+      hasSizes && size ? `${baseTitle} · ${size}` : baseTitle;
+    addItem({
+      id: detail.slug,
+      title,
+      price: detail.price,
+      image: detail.images[0] ?? "",
+      inStock: true,
+      quantity: qty,
+    });
+  }, [
+    addItem,
+    canSubmit,
+    detail.images,
+    detail.price,
+    detail.slug,
+    detail.title,
+    hasSizes,
+    qty,
+    size,
+  ]);
 
   const descriptionParagraphs = detail.description
     .split(/\n\s*\n/)
@@ -152,7 +179,11 @@ export function ProductPurchasePanel({ detail }: ProductPurchasePanelProps) {
           className={`${pdpCtaClass} ${!canSubmit ? "opacity-[0.42] hover:opacity-100" : ""}`}
           aria-disabled={!canSubmit}
           onClick={(e) => {
-            if (!canSubmit) e.preventDefault();
+            if (!canSubmit) {
+              e.preventDefault();
+              return;
+            }
+            addProductToCart();
           }}
         >
           Add to cart
@@ -163,7 +194,11 @@ export function ProductPurchasePanel({ detail }: ProductPurchasePanelProps) {
           className={`${pdpCtaClass} ${!canSubmit ? "opacity-[0.42] hover:opacity-100" : ""}`}
           aria-disabled={!canSubmit}
           onClick={(e) => {
-            if (!canSubmit) e.preventDefault();
+            if (!canSubmit) {
+              e.preventDefault();
+              return;
+            }
+            addProductToCart();
           }}
         >
           Buy it now
