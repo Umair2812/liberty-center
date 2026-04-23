@@ -542,5 +542,7 @@ export const slugParent: Record<string, string> = {
 
 /** Get products for a given slug */
 export function getProductsBySlug(slug: string): CatalogProduct[] {
-  return catalogProducts.filter((p) => p.slugs.includes(slug));
+  return catalogProducts.filter((p) =>
+    p.slugs.some((s) => s === slug || s.startsWith(`${slug}/`))
+  );
 }

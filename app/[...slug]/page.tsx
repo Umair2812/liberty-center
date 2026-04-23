@@ -12,14 +12,19 @@ import {
   slugParent,
   type CatalogProduct,
 } from "@/data/catalog";
+import {
+  FilterDrawer,
+  type FilterState,
+  defaultFilterState,
+  activeFilterCount,
+  applyFilters,
+} from "@/components/ui/FilterDrawer";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 type GridCols = 2 | 4;
 type SortKey =
   | "featured"
   | "best-selling"
-  | "alpha-asc"
-  | "alpha-desc"
   | "price-asc"
   | "price-desc"
   | "date-old"
@@ -28,8 +33,6 @@ type SortKey =
 const sortOpts: { value: SortKey; label: string }[] = [
   { value: "featured",    label: "Featured" },
   { value: "best-selling", label: "Best Selling" },
-  { value: "alpha-asc",   label: "Alphabetically, A-Z" },
-  { value: "alpha-desc",  label: "Alphabetically, Z-A" },
   { value: "price-asc",   label: "Price, Low to High" },
   { value: "price-desc",  label: "Price, High to Low" },
   { value: "date-old",    label: "Date, Old to New" },
@@ -49,6 +52,8 @@ export default function CatalogPage() {
   const [sortBy, setSortBy] = useState<SortKey>("featured");
   const [gridCols, setGridCols] = useState<GridCols>(4);
   const [mounted, setMounted] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterState>(defaultFilterState);
 
   useEffect(() => {
     setMounted(false);
@@ -61,17 +66,16 @@ export default function CatalogPage() {
     switch (sortBy) {
       case "price-asc":   list.sort((a, b) => a.price - b.price); break;
       case "price-desc":  list.sort((a, b) => b.price - a.price); break;
-      case "alpha-asc":   list.sort((a, b) => a.name.localeCompare(b.name)); break;
-      case "alpha-desc":  list.sort((a, b) => b.name.localeCompare(a.name)); break;
-      // best-selling: badge items first (proxy for popularity)
       case "best-selling": list.sort((a, b) => (b.badge ? 1 : 0) - (a.badge ? 1 : 0)); break;
-      // date-old: lower numeric id suffix = older
       case "date-old":  list.sort((a, b) => a.id.localeCompare(b.id)); break;
       case "date-new":  list.sort((a, b) => b.id.localeCompare(a.id)); break;
       default: break;
     }
     return list;
   }, [products, sortBy]);
+
+  const displayed = useMemo(() => applyFilters(sorted, filters), [sorted, filters]);
+  const filterCount = activeFilterCount(filters);
 
   return (
     <div className="min-h-screen bg-[#fafaf9]">
@@ -87,7 +91,7 @@ export default function CatalogPage() {
           className="pointer-events-none absolute -bottom-10 left-0 h-48 w-48 rounded-full bg-[#f0e6e2] opacity-40 blur-2xl"
         />
 
-        <Container>
+        <div className="px-4 sm:px-6">
           {/* Breadcrumb */}
           <nav
             aria-label="breadcrumb"
@@ -117,15 +121,15 @@ export default function CatalogPage() {
               {pageTitle}
             </h1>
             <p className="mt-2 text-[12px] tracking-[0.12em] text-[#9a9089] uppercase">
-              {sorted.length} {sorted.length === 1 ? "product" : "products"}
+              {displayed.length} {displayed.length === 1 ? "product" : "products"}
             </p>
           </div>
-        </Container>
+        </div>
       </div>
 
       {/* ── Toolbar ─────────────────────────────────────────────────── */}
       <div className="sticky top-[4.25rem] z-30 border-b border-[#e8e4e0] bg-white/95 backdrop-blur-sm">
-        <Container>
+        <div className="px-4 sm:px-6">
           <div className="flex h-12 items-center justify-between gap-4">
             {/* Grid toggles */}
             <div className="flex items-center gap-2">
@@ -149,16 +153,41 @@ export default function CatalogPage() {
               </button>
             </div>
 
-            {/* Sort */}
-            <SortDropdown value={sortBy} onChange={setSortBy} />
+            {/* Sort + Filter */}
+            <div className="flex items-center gap-5">
+              <SortDropdown value={sortBy} onChange={setSortBy} />
+              <button
+                onClick={() => setFilterOpen(true)}
+                className="flex items-center gap-2 text-[11px] tracking-[0.18em] text-[#2c2825] uppercase transition-colors hover:text-[#9a9089]"
+              >
+                Filter
+                {filterCount > 0 && (
+                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#2c2825] text-[9px] text-white">
+                    {filterCount}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
-        </Container>
+        </div>
       </div>
 
       {/* ── Product Grid ────────────────────────────────────────────── */}
-      <Container className="py-10">
-        {sorted.length === 0 ? (
-          <EmptyState title={pageTitle} />
+      <div className="py-6 px-4 sm:px-6">
+        {displayed.length === 0 ? (
+          products.length === 0 ? (
+            <EmptyState title={pageTitle} />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <p className="text-[13px] tracking-[0.15em] text-[#9a9089] uppercase">No products match your filters</p>
+              <button
+                onClick={() => setFilters(defaultFilterState)}
+                className="mt-4 text-[11px] tracking-[0.15em] text-[#2c2825] underline underline-offset-2 uppercase"
+              >
+                Clear All Filters
+              </button>
+            </div>
+          )
         ) : (
           <div
             className={`grid border border-[#e8e4e0] divide-x divide-y divide-[#e8e4e0] ${
@@ -167,7 +196,7 @@ export default function CatalogPage() {
                 : "grid-cols-2"
             }`}
           >
-            {sorted.map((product, i) => (
+            {displayed.map((product, i) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -177,7 +206,16 @@ export default function CatalogPage() {
             ))}
           </div>
         )}
-      </Container>
+      </div>
+
+      {/* ── Filter Drawer ───────────────────────────────────────────── */}
+      <FilterDrawer
+        open={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        filters={filters}
+        onChange={setFilters}
+        resultCount={displayed.length}
+      />
     </div>
   );
 }
